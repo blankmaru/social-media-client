@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   ModalHeader,
@@ -9,11 +9,11 @@ import {
   FormGroup,
   Label,
   Input,
-  Alert,
+  Alert
 } from "reactstrap";
 import axios from "axios";
 
-const AddPostModal = (props) => {
+const EditPost = (props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [status, setStatus] = useState(false);
@@ -29,18 +29,22 @@ const AddPostModal = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    const likes = props.post.likes;
+    const comments = props.post.comments;
 
-    const newPost = {
+    const updatedPost = {
       title,
       content,
-      author: user.id,
-      likes: 0,
-      comments: 0,
+      likes,
+      comments,
+      id: props.post._id,
     };
 
     axios
-      .post("http://localhost:8080/explore/add", newPost)
+      .post(
+        `http://localhost:8080/explore/update/${props.post._id}`,
+        updatedPost
+      )
       .then(() => setStatus(true));
 
     setTimeout(() => {
@@ -50,10 +54,10 @@ const AddPostModal = (props) => {
 
   return (
     <Modal isOpen={props.isOpen} toggle={props.toggle}>
-      <ModalHeader toggle={props.toggle}>Create New Post</ModalHeader>
+      <ModalHeader toggle={props.toggle}>Update Post</ModalHeader>
       <ModalBody>
-        {status ? (
-          <Alert color="success">Post successfully added!</Alert>
+      {status ? (
+          <Alert color="primary">Post successfully updated!</Alert>
         ) : null}
         <Form onSubmit={onSubmit}>
           <FormGroup>
@@ -61,23 +65,24 @@ const AddPostModal = (props) => {
             <Input
               value={title}
               onChange={onTitleChange}
+              autoComplete="off"
               type="text"
               name="title"
-              autoComplete="off"
-              placeholder="Type title here"
+              placeholder={props.post.title}
             />
           </FormGroup>
           <FormGroup>
-            <Label for="text">Content</Label>
+            <Label for="title">Text Content</Label>
             <Input
               value={content}
               onChange={onContentChange}
               autoComplete="off"
               type="textarea"
               name="text"
+              placeholder={props.post.content}
             />
           </FormGroup>
-          <Button color="primary" block>ADD</Button>
+          <Button color="primary">Update</Button>
         </Form>
       </ModalBody>
       <ModalFooter>
@@ -89,4 +94,4 @@ const AddPostModal = (props) => {
   );
 };
 
-export default AddPostModal;
+export default EditPost;

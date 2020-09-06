@@ -13,7 +13,7 @@ import {
 const Profile = (props) => {
   const [isOpen, setOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem('user'))
+    localStorage.getItem('user')
   );
 
   const toggle = () => setOpen(!isOpen);
@@ -40,6 +40,7 @@ const Profile = (props) => {
           <Card>
             <CardBody>
               <CardTitle>Username: {currentUser.username}</CardTitle>
+              <CardText>About User</CardText>
               <CardText>{currentUser.email}</CardText>
             </CardBody>
           </Card>
