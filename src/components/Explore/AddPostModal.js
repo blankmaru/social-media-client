@@ -36,8 +36,10 @@ const AddPostModal = (props) => {
       content,
       author: user.id,
       likes: 0,
-      comments: 0,
+      comments: [],
     };
+
+    console.log(user.id);
 
     axios
       .post("http://localhost:8080/explore/add", newPost)

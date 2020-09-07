@@ -16,6 +16,8 @@ const PostItem = props => {
     const [modal, setModal] = useState(false);
     const [postAuthor, setPostAuthor] = useState('');
     const [isAuthor, setIsAuthor] = useState(false);
+    const [commentsCount, setCommentsCount] = useState(0);
+    const [authUser, setAuthUser] = useState(null);
 
     const toggle = () => setModal(!modal);
 
@@ -29,6 +31,9 @@ const PostItem = props => {
                 }
             })
             .catch(err => console.error(err));
+
+        axios.get(`http://localhost:8080/explore/${props.post._id}`)
+            .then(res => setCommentsCount(res.data.comments.length));
     }, []);
 
     const deleteToggle = () => {
@@ -48,7 +53,7 @@ const PostItem = props => {
             <ListGroupItemText>{props.post.content}</ListGroupItemText>
             <ListGroupItemText><FaUser />{postAuthor}</ListGroupItemText>
             {props.post.likes} <FaHeart style={{ cursor: "pointer" }} />{" "}
-            {props.post.comments} <FaComment />{" "}
+            {commentsCount} <FaComment style={{ cursor: "pointer" }} />{" "}
             <FaTrashAlt
                 style={{ float: "right", cursor: "pointer" }}
                 onClick={deleteToggle}
