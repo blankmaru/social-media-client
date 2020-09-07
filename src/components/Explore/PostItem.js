@@ -15,12 +15,19 @@ const URL = 'http://localhost:8080/api/test/author';
 const PostItem = props => {
     const [modal, setModal] = useState(false);
     const [postAuthor, setPostAuthor] = useState('');
+    const [isAuthor, setIsAuthor] = useState(false);
 
     const toggle = () => setModal(!modal);
 
     useEffect(() => {  
+        const user = localStorage.getItem('user');
         axios.post(`${URL}/${props.post.author}`)
-            .then(res => setPostAuthor(res.data.username))
+            .then(res => {
+                setPostAuthor(res.data.username)
+                if (res.data.username === JSON.parse(user).username) {
+                    setIsAuthor(true);
+                }
+            })
             .catch(err => console.error(err));
     }, []);
 
@@ -46,11 +53,16 @@ const PostItem = props => {
                 style={{ float: "right", cursor: "pointer" }}
                 onClick={deleteToggle}
             />
-            <EditPost isOpen={modal} toggle={toggle} post={props.post} />
-            <FaEdit
-                onClick={toggle}
-                style={{ marginRight: "0.2rem", float: "right", cursor: "pointer" }}
-            />
+            {isAuthor 
+                ? 
+                <>
+                    <EditPost isOpen={modal} toggle={toggle} post={props.post} />
+                    <FaEdit
+                        onClick={toggle}
+                        style={{ marginRight: "0.2rem", float: "right", cursor: "pointer" }}
+                    /> 
+                </>
+                : null}
         </ListGroupItem>
     );
 };

@@ -8,6 +8,13 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
+import {
+    FaHome,
+    FaHashtag,
+    FaUserSecret,
+    FaIdBadge,
+    FaSignOutAlt
+} from 'react-icons/fa'
 
 const AppNavbar = props => {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,11 +27,11 @@ const AppNavbar = props => {
             <Collapse isOpen={isOpen} navbar>
             <Nav className="navbar-nav mr-auto">
               <NavItem>
-                  <NavLink href="/home">Home</NavLink>
+                  <NavLink href="/home"><FaHome />Home</NavLink>
               </NavItem>
 
               <NavItem>
-                  <NavLink href="/explore">Explore</NavLink>
+                  <NavLink href="/explore"><FaHashtag />Explore</NavLink>
               </NavItem>
 
               {props.state.showAdminBoard && (
@@ -35,7 +42,7 @@ const AppNavbar = props => {
 
               {props.state.currentUser && (
                 <NavItem>
-                    <NavLink href="/user">User</NavLink>
+                    <NavLink href="/user"><FaUserSecret />User</NavLink>
                 </NavItem>
               )}
                 </Nav>
@@ -43,10 +50,12 @@ const AppNavbar = props => {
             {props.state.currentUser ? (
                 <Nav navbar>
                     <NavItem>
-                        <NavLink href="/profile">{props.state.currentUser.username}</NavLink>
+                        <NavLink href="/profile"><FaIdBadge />{props.state.currentUser.username}</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="/login" onClick={props.logOut}>LogOut</NavLink>
+                        <NavLink href="/login" onClick={props.logOut}>
+                            <FaSignOutAlt />LogOut
+                        </NavLink>
                     </NavItem>
                 </Nav>
             ) : (
