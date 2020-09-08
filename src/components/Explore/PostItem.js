@@ -9,17 +9,20 @@ import { FaHeart, FaComment, FaTrashAlt, FaEdit, FaUser } from "react-icons/fa";
 import axios from 'axios';
 
 import EditPost from './EditPost';
+import Comments from './Comments/Comments';
 
 const URL = 'http://localhost:8080/api/test/author';
 
 const PostItem = props => {
     const [modal, setModal] = useState(false);
+    const [modalComments, setModalComments] = useState(false);
     const [postAuthor, setPostAuthor] = useState('');
     const [isAuthor, setIsAuthor] = useState(false);
     const [commentsCount, setCommentsCount] = useState(0);
-    const [authUser, setAuthUser] = useState(null);
+    const [comments, setComments] = useState({});
 
     const toggle = () => setModal(!modal);
+    const toggleComments = () => setModalComments(!modalComments);
 
     useEffect(() => {  
         const user = localStorage.getItem('user');
@@ -33,7 +36,10 @@ const PostItem = props => {
             .catch(err => console.error(err));
 
         axios.get(`http://localhost:8080/explore/${props.post._id}`)
-            .then(res => setCommentsCount(res.data.comments.length));
+            .then(res => {
+                setCommentsCount(res.data.comments.length);
+                setComments(res.data.comments);
+            });
     }, []);
 
     const deleteToggle = () => {
@@ -53,7 +59,11 @@ const PostItem = props => {
             <ListGroupItemText>{props.post.content}</ListGroupItemText>
             <ListGroupItemText><FaUser />{postAuthor}</ListGroupItemText>
             {props.post.likes} <FaHeart style={{ cursor: "pointer" }} />{" "}
-            {commentsCount} <FaComment style={{ cursor: "pointer" }} />{" "}
+            <Comments isOpen={modalComments} toggle={toggleComments} comments={comments} />
+            {commentsCount} {" "}
+            <FaComment 
+                style={{ cursor: "pointer" }}
+                onClick={toggleComments} />{" "}
             <FaTrashAlt
                 style={{ float: "right", cursor: "pointer" }}
                 onClick={deleteToggle}
