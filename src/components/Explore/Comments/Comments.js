@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import axios from "axios";
 
-import Comment from './CommentItem';
+import ClassComment from './ClassCommentItem';
 
 const Comments = props => {
     return (
@@ -21,7 +21,7 @@ const Comments = props => {
             <ModalBody>
                 <ListGroup>
                     {(props.comments.length > 0) ? props.comments.map(comment => (
-                        <Comment comment={comment} key={comment._id} />
+                        <ClassComment comment={comment} key={comment._id} />
                     ))
                     : null }
                 </ListGroup>
