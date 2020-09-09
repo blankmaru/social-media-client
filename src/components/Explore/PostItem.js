@@ -59,7 +59,7 @@ const PostItem = props => {
             <ListGroupItemText>{props.post.content}</ListGroupItemText>
             <ListGroupItemText><FaUser />{postAuthor}</ListGroupItemText>
             {props.post.likes} <FaHeart style={{ cursor: "pointer" }} />{" "}
-            <Comments isOpen={modalComments} toggle={toggleComments} comments={comments} />
+            <Comments post={props.post._id} isOpen={modalComments} toggle={toggleComments} comments={comments} />
             {commentsCount} {" "}
             <FaComment 
                 style={{ cursor: "pointer" }}

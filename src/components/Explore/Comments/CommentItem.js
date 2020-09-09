@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ListGroupItem, ListGroupItemText } from 'reactstrap'
+import { ListGroupItem, ListGroupItemText } from 'reactstrap';
 import axios from 'axios';
 
 const Comment = props => {
@@ -15,8 +15,11 @@ const Comment = props => {
 
     return (
         <ListGroupItem>
+            <ListGroupItemText>
+                <img src={props.comment.userAvatar} style={{width: '1.5rem', height: '1.5rem', borderRadius: '1.5rem'}} /> 
+                    {author}
+                </ListGroupItemText>
             <ListGroupItemText>{props.comment.content}</ListGroupItemText>
-            <ListGroupItemText>{author}</ListGroupItemText>
         </ListGroupItem>
     )
 }
