@@ -10,20 +10,24 @@ import {
   DropdownItem,
 } from "reactstrap";
 
+import ModalEditProfile from './Profile/ModalEditProfile';
+
 const Profile = (props) => {
   const [isOpen, setOpen] = useState(false);
+  const [open, setOpn] = useState(false);
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem('user'))
   );
 
   const toggle = () => setOpen(!isOpen);
+  const tgl = () => setOpn(!open);
 
   return (
     <div>
       <div>
         <img
           style={{ borderRadius: "0.5rem" }}
-          src="https://i.pinimg.com/originals/2c/c4/56/2cc456e2aad19112252bc886362a7d58.jpg"
+          src={currentUser.profileBg}
           width="100%"
           alt="header"
         />
@@ -31,7 +35,7 @@ const Profile = (props) => {
       <div style={{ marginTop: "0.5rem", display: "flex" }}>
         <img
           style={{ borderRadius: "0.5rem" }}
-          src="https://i.pinimg.com/originals/36/94/88/3694883db86f21a6b0aa0c2e0d3793b5.jpg"
+          src={currentUser.avatar}
           width="25%"
           height="25%"
           alt="avatar"
@@ -46,10 +50,11 @@ const Profile = (props) => {
         </div>
       </div>
       <div style={{ marginTop: "0.5rem" }}>
+        <ModalEditProfile open={open} toggle={tgl} />
         <ButtonDropdown isOpen={isOpen} toggle={toggle}>
           <DropdownToggle caret>Actions</DropdownToggle>
           <DropdownMenu>
-            <DropdownItem>Edit Profile</DropdownItem>
+            <DropdownItem onClick={tgl}>Edit Profile</DropdownItem>
             <DropdownItem disabled>Add to friends</DropdownItem>
             <DropdownItem disabled>Send message</DropdownItem>
             <DropdownItem divider />

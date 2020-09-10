@@ -26,7 +26,7 @@ const Comments = props => {
     const onSubmit = e => {
         e.preventDefault();
 
-        const user = localStorage.getItem('user');
+        const user = JSON.parse(localStorage.getItem('user'));
 
         const newComment = {
             userAvatar: 'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/124546598/original/8c50012ce1a9add1ce367141bfce829e96d0063b/draw-a-cute-anime-manga-girl-face.png',
@@ -37,14 +37,12 @@ const Comments = props => {
             date: Date.now()
         }
 
-        axios.all([
-            axios.post('http://localhost:8080/api/comments/add', newComment),
-            axios.post(`http://localhost:8080/explore/api/comments/posts/${props.post}`, {
-                comment: newComment
-            })
-        ])
-            .then(() => console.log('Comment added ' + props.post))
-            .catch(err => console.error(err));
+        axios.post(`http://localhost:8080/api/comments/add/${props.post}`, {
+            comment: newComment
+        })
+            .then(() => console.log(newComment))
+            .catch(err => console.error(newComment, user));
+        
     };
 
     return (

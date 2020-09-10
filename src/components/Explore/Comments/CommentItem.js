@@ -11,7 +11,7 @@ const Comment = props => {
                 setAuthor(res.data.username);
             })
             .catch(err => console.error(err));
-    })
+    }, [])
 
     return (
         <ListGroupItem>
